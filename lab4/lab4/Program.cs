@@ -170,38 +170,48 @@ namespace lab4
 
         public void chooseAction(int usersAction)
         {
-            switch (usersAction)
+            try
             {
-                case 1:
-                    db.createDataBase();
-                    break;
-                case 2:
-                    db.createTable();
-                    break;
-                case 3:
-                    db.dropTable();
-                    break;
-                case 4:
-                    db.createView();
-                    break;
-                case 5:
-                    db.dropView();
-                    break;
-                case 6:
-                    db.createIndex();
-                    break;
-                case 7:
-                    db.dropIndex();
-                    break;
-                case 8:
-                    db.createSequence();
-                    break;
-                case 9:
-                    db.dropSequence();
-                    break;
-                case 10:
-                    db.addConstraint();
-                    break;
+                switch (usersAction)
+                {
+                    case 1:
+                        db.createDataBase();
+                        break;
+                    case 2:
+                        db.createTable();
+                        break;
+                    case 3:
+                        db.dropTable();
+                        break;
+                    case 4:
+                        db.createView();
+                        break;
+                    case 5:
+                        db.dropView();
+                        break;
+                    case 6:
+                        db.createIndex();
+                        break;
+                    case 7:
+                        db.dropIndex();
+                        break;
+                    case 8:
+                        db.createSequence();
+                        break;
+                    case 9:
+                        db.dropSequence();
+                        break;
+                    case 10:
+                        db.addConstraint();
+                        break;
+                    default:
+                        throw new ArgumentException("Операции с таким номер не существует");
+                }
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
+                return;
             }
         }
     }
@@ -211,42 +221,65 @@ namespace lab4
     class Program
     {
         static void Main(string[] args)
-        {
+        {      
             Console.WriteLine("Введите название СУБД, с который вы будете работать: \nДоступные СУБД: Oracle, MySQL, PostgreSQL");
+
             string name = Console.ReadLine();
             name = name.ToLower();
             DB userDB;
-            switch (name)
+            try
             {
-                case "oracle":
-                    userDB = new Oracle();
-                    break;
-                case "mysql":
-                    userDB = new MySQL();
-                    break;
-                case "postgresql":
-                    userDB = new PostgreSQL();
-                    break;
-                default:
-                    throw new ArgumentException("Неверная компания");
+                switch (name)
+                {
+                    case "oracle":
+                        userDB = new Oracle();
+                        break;
+                    case "mysql":
+                        userDB = new MySQL();
+                        break;
+                    case "postgresql":
+                        userDB = new PostgreSQL();
+                        break;
+                    case "":
+                        throw new ArgumentException("Вы ничего не ввели");                        
+                    default:
+                        throw new ArgumentException("Название СУБД введено неверно");
+                }
             }
-
-            Console.WriteLine("Через запятую введите номера операций, которые вы хотите выполнить:" +
-                "\nСписок доступных операций:\n1 - Создать базу данных,\n2 - Добавить таблицу" +
-                "\n3 - Удалить таблицу\n4 - Добавить представление\n5 - Удалить представление" +
-                "\n6 - Создать индекс\n7 - Удалить индекс\n8 - Создать последовательность" +
-                "\n9 - Удалить последовательность\n10 - Добавить ограничение");
-
-            string acts = Console.ReadLine();
-            Console.WriteLine();
-            string[] actions = acts.Split(",");
-            int actionName;
-            Client c = new Client(userDB);
-            for (int i = 0; i < actions.Length; i++)
+            catch (Exception exp)
             {
-                actionName = Int32.Parse(actions[i]);
-                c.chooseAction(actionName);
+                Console.WriteLine(exp.Message);
+                return;
             }
+            
+
+                Console.WriteLine("Через запятую введите номера операций, которые вы хотите выполнить:" +
+                    "\nСписок доступных операций:\n1 - Создать базу данных,\n2 - Добавить таблицу" +
+                    "\n3 - Удалить таблицу\n4 - Добавить представление\n5 - Удалить представление" +
+                    "\n6 - Создать индекс\n7 - Удалить индекс\n8 - Создать последовательность" +
+                    "\n9 - Удалить последовательность\n10 - Добавить ограничение");
+
+                string acts = Console.ReadLine();
+                Console.WriteLine();
+                string[] actions = acts.Split(",");
+                int actionName;
+                Client c = new Client(userDB);
+            try
+            {
+
+                for (int i = 0; i < actions.Length; i++)
+                {
+                    actionName = Int32.Parse(actions[i]);
+                    throw new ArgumentException("ааааа");
+                    c.chooseAction(actionName);
+                }
+                
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
+           
         }
     }
 }
